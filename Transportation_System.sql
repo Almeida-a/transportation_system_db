@@ -35,6 +35,7 @@ CREATE TABLE Transportation_System.Employee (
 	FuncID				char(15)		NOT NULL,
 	EName				varchar(50),
 	Birthday			smalldatetime,
+	Init_Date			smalldatetime,
 	PRIMARY KEY(FuncID)
 );
 
@@ -50,7 +51,7 @@ CREATE TABLE Transportation_System.TicketSeller (
 
 	FuncID				char(15)	NOT NULL,
 	WorkStationAddress	varchar(50)	NOT NULL,
-	PRIMARY KEY(FuncID, WorkStationAddress),
+	PRIMARY KEY(FuncID),
 	-- Foreign keys
 	-- FuncID
 	FOREIGN KEY (FuncID) REFERENCES Transportation_System.Employee(FuncID),
@@ -100,22 +101,51 @@ CREATE TABLE Transportation_System.Trip (
 	FOREIGN KEY (VehicleSerialNo) REFERENCES Transportation_System.PublicVehicle(SerialNo)
 );
 
+CREATE TABLE Transportation_System.StopPoint (
+
+	TripNo				int			NOT NULL,
+	StopNo				smallint	NOT NULL,
+	DepartureTime		smalldatetime,
+	ArrivalTime			smalldatetime,
+	StopAddress			varchar(50)	NOT NULL,
+	PRIMARY KEY(TripNo, StopNo),
+	--UNIQUE(TripNo),
+
+	-- Foreign keys
+	-- TripNo
+	FOREIGN KEY (TripNo) REFERENCES Transportation_System.Trip(TripNo),
+	-- StopAddress
+	FOREIGN KEY (StopAddress) REFERENCES Transportation_System.Station(Addr)
+);
+
 CREATE TABLE Transportation_System.Ticket (
 
-	TicketNo		int				NOT NULL,
-	PurchaseDate	smalldatetime,
-	TripNumber		int				NOT NULL,
-	BuyersCC		int				NOT NULL,
-	SellerID		char(15),
+	TicketNo			int				NOT NULL,
+	PurchaseDate		smalldatetime,
+	TripNumber			int				NOT NULL,
+	BuyersCC			int				NOT NULL,
+	SellerID			char(15),
+	DepartureTripNo		int				NOT NULL,
+	DepartureStopNo		smallint		NOT NULL,
+	ArrivalTripNo		int				NOT NULL,
+	ArrivalStopNo		smallint		NOT NULL
+
 	PRIMARY KEY(TicketNo),
 	-- Foreign keys
-	-- ...
 	-- TripNumber
 	FOREIGN KEY (TripNumber) REFERENCES Transportation_System.Trip(TripNo),
 	-- BuyersCC
 	FOREIGN KEY (BuyersCC) REFERENCES Transportation_System.Passenger(CC),
 	-- SellerID
-	FOREIGN KEY (SellerID) REFERENCES Transportation_System.TicketSeller(FuncID)
+	FOREIGN KEY (SellerID) REFERENCES Transportation_System.TicketSeller(FuncID),
+	-- Departure Trip Number
+	FOREIGN KEY (DepartureTripNo, DepartureStopNo)	REFERENCES Transportation_System.StopPoint(TripNo, StopNo),
+	-- Departure Stop Number
+	--FOREIGN KEY (DepartureStopNo)	REFERENCES Transportation_System.StopPoint(StopNo),
+	-- Arrival Trip Number
+	FOREIGN KEY (ArrivalTripNo, ArrivalStopNo)	REFERENCES Transportation_System.StopPoint(TripNo, StopNo)
+	-- Arrival Stop Number
+	--FOREIGN KEY (ArrivalStopNo)	REFERENCES Transportation_System.StopPoint(StopNo)
 
 );
 
@@ -138,19 +168,4 @@ CREATE TABLE Transportation_System.WorksOn (
 	FOREIGN KEY (FuncID) REFERENCES Transportation_System.CrewMember(FuncID),
 	-- TripNo
 	FOREIGN KEY (TripNo) REFERENCES Transportation_System.Trip(TripNo)
-);
-
-CREATE TABLE Transportation_System.StopPoint (
-
-	TripNo				int			NOT NULL,
-	StopNo				smallint	NOT NULL,
-	DepartureTime		smalldatetime,
-	ArrivalTime			smalldatetime,
-	StopAddress			varchar(50)	NOT NULL,
-	PRIMARY KEY(TripNo, StopNo),
-	-- Foreign keys
-	-- TripNo
-	FOREIGN KEY (TripNo) REFERENCES Transportation_System.Trip(TripNo),
-	-- StopAddress
-	FOREIGN KEY (StopAddress) REFERENCES Transportation_System.Station(Addr)
 );
