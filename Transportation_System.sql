@@ -21,6 +21,8 @@ CREATE SCHEMA Transportation_System;
 
 GO
 
+-- TODO Create type for FuncID [w/ drop if exists]
+
 CREATE TABLE Transportation_System.Passenger (
 
 	CC					int				NOT NULL,
@@ -29,6 +31,7 @@ CREATE TABLE Transportation_System.Passenger (
 	PRIMARY KEY(CC)
 
 );
+-- 
 insert into Transportation_System.Passenger (cc, pname, birthday) values (120952978, 'Padgett Mattheissen', '1928-06-03 03:03:24');
 insert into Transportation_System.Passenger (cc, pname, birthday) values (118627741, 'Tamarah Erwin', '2015-05-24 06:08:38');
 insert into Transportation_System.Passenger (cc, pname, birthday) values (138537300, 'Tabbie Oswell', '1965-02-10 13:49:42');
@@ -50,7 +53,7 @@ CREATE TABLE Transportation_System.Employee (
 	Init_Date			smalldatetime,
 	PRIMARY KEY(FuncID)
 );
-
+-- 
 insert into Transportation_System.Employee (FuncID, EName, Birthday, Init_Date) values ('987705747291859', 'Luci Schmidt', '1940-10-19 23:02:39', '2012-01-22 17:13:23');
 insert into Transportation_System.Employee (FuncID, EName, Birthday, Init_Date) values ('978194357492412', 'Randee Webling', '1947-10-13 16:24:50', '2018-06-26 23:08:55');
 insert into Transportation_System.Employee (FuncID, EName, Birthday, Init_Date) values ('011186694572846', 'Hollyanne Shaplin', '1998-09-14 09:02:33', '2005-08-10 20:53:43');
@@ -77,9 +80,10 @@ CREATE TABLE Transportation_System.Station (
 	StatName		varchar(30),
 	StatType		varchar(25),
 	Descricao		varchar(75),
+	UNIQUE(StatName),
 	PRIMARY KEY (Addr)
 );
-
+-- 
 insert into Transportation_System.Station (StatName, Addr, StatType, Descricao) values ('Aveiro', 'Aveiro 23910', 'Primary', 'impotent enthrall doughnut black ');
 insert into Transportation_System.Station (StatName, Addr, StatType, Descricao) values ('Quintans', 'Quintans 30574', 'Primary', 'eights wishing mourns hush''s ');
 insert into Transportation_System.Station (StatName, Addr, StatType, Descricao) values ('Oia', 'Oia 73280', 'Secondary', 'foreigners roars mortuaries facetious ');
@@ -109,6 +113,7 @@ CREATE TABLE Transportation_System.TicketSeller (
 	-- WorkStationAddress
 	FOREIGN KEY (WorkStationAddress) REFERENCES Transportation_System.Station(Addr)
 );
+-- TODO insert trigger asserting seller isn't on another station and isn't already a crewmember
 -- Aveiro employees
 insert into Transportation_System.TicketSeller(FuncID, WorkStationAddress) values (987705747291859, 'Aveiro 23910');
 insert into Transportation_System.TicketSeller(FuncID, WorkStationAddress) values (978194357492412, 'Aveiro 23910');
@@ -143,12 +148,13 @@ insert into Transportation_System.TicketSeller(FuncID) values (504824182452584);
 insert into Transportation_System.TicketSeller(FuncID) values (959001345886574);
 
 CREATE TABLE Transportation_System.PublicVehicle (
-	SerialNo		int			NOT NULL,
+	SerialNo		int			NOT NULL check(SerialNo > 0),
 	ModelID			char(17),
-	Capacity		smallint,
+	Capacity		smallint check(Capacity>0),
 	ServiceMode		varchar(40),
 	PRIMARY KEY(SerialNo)
 );
+--
 insert into Transportation_System.PublicVehicle (SerialNo, ModelID, Capacity, ServiceMode) values (722161, null, 147, 'Inter-Cidades');
 insert into Transportation_System.PublicVehicle (SerialNo, ModelID, Capacity, ServiceMode) values (214191, 'JA32U2FU5EU923754', 89, 'Inter-Cidades');
 insert into Transportation_System.PublicVehicle (SerialNo, ModelID, Capacity, ServiceMode) values (365238, 'WA1DMAFP4FA092257', 250, 'Urbano');
@@ -186,6 +192,7 @@ CREATE TABLE Transportation_System.Train (
 	FOREIGN KEY (SerialNo) REFERENCES Transportation_System.PublicVehicle(SerialNo)
 
 );
+-- TODO insert trigger asserting SerialNo isn't present at Tube nor Bus table
 insert into Transportation_System.Train (SerialNo) values (722161);
 insert into Transportation_System.Train (SerialNo) values (214191);
 insert into Transportation_System.Train (SerialNo) values (365238);
@@ -205,7 +212,6 @@ insert into Transportation_System.Train (SerialNo) values (541273);
 insert into Transportation_System.Train (SerialNo) values (550744);
 insert into Transportation_System.Train (SerialNo) values (89883);
 insert into Transportation_System.Train (SerialNo) values (514919);
--- insert into Transportation_System.Train (SerialNo) values (); more, if needed
 
 
 CREATE TABLE Transportation_System.Bus (
@@ -215,6 +221,7 @@ CREATE TABLE Transportation_System.Bus (
 	FOREIGN KEY (SerialNo) REFERENCES Transportation_System.PublicVehicle(SerialNo)
 
 );
+-- TODO insert trigger asserting SerialNo isn't present at Train nor Tube table
 insert into Transportation_System.Bus(SerialNo) values (455238);
 insert into Transportation_System.Bus(SerialNo) values (272663);
 insert into Transportation_System.Bus(SerialNo) values (246234);
@@ -231,9 +238,9 @@ CREATE TABLE Transportation_System.Tube (
 	FOREIGN KEY (SerialNo) REFERENCES Transportation_System.PublicVehicle(SerialNo)
 
 );
+-- TODO insert trigger asserting SerialNo isn't present at Train nor Bus table
 insert into Transportation_System.Tube(SerialNo) values (297856);
 insert into Transportation_System.Tube(SerialNo) values (481344);
---insert into Transportation_System.Tube(SerialNo) values (); more, if needed
 
 
 CREATE TABLE Transportation_System.Trip (
@@ -245,7 +252,7 @@ CREATE TABLE Transportation_System.Trip (
 	-- VehicleSerialNo
 	FOREIGN KEY (VehicleSerialNo) REFERENCES Transportation_System.PublicVehicle(SerialNo)
 );
--- Trips with random vehicles
+-- Trips with random trains
 insert into Transportation_System.Trip (TripNo, VehicleSerialNo) values (928688, 278934);
 insert into Transportation_System.Trip (TripNo, VehicleSerialNo) values (266516, 297856);
 insert into Transportation_System.Trip (TripNo, VehicleSerialNo) values (304356, 214191);
@@ -274,10 +281,9 @@ CREATE TABLE Transportation_System.StopPoint (
 	TripNo				int			NOT NULL,
 	StopNo				smallint	NOT NULL,
 	DepartureTime		smalldatetime,
-	ArrivalTime			smalldatetime,
+	ArrivalTime			smalldatetime check(ArrivalTime <= DepartureTime), -- goal it to assert depTime isn't before arrival time
 	StopAddress			varchar(50)	NOT NULL,
 	PRIMARY KEY(TripNo, StopNo),
-	--UNIQUE(TripNo),
 
 	-- Foreign keys
 	-- TripNo
@@ -285,6 +291,10 @@ CREATE TABLE Transportation_System.StopPoint (
 	-- StopAddress
 	FOREIGN KEY (StopAddress) REFERENCES Transportation_System.Station(Addr)
 );
+-- TODO insert trigger asserting:
+--		stoppoints are sequencial; [easy]
+--		stopNo and times are semantically consistent [hard]
+-- Note:  if depTrip==arrTrip then it's assumed no scale is made
 -- Viagem de um comboio regional de aveiro a coimbra
 insert into Transportation_System.StopPoint (TripNo, StopNo, DepartureTime, ArrivalTime, StopAddress) values (990651, 1, '2021-06-03 21:03:24', '2021-06-03 21:03:24', 'Aveiro 23910');
 insert into Transportation_System.StopPoint (TripNo, StopNo, DepartureTime, ArrivalTime, StopAddress) values (990651, 2, '2021-06-03 21:08:24', '2021-06-03 21:09:24', 'Quintans 30574');
@@ -312,46 +322,45 @@ CREATE TABLE Transportation_System.Ticket (
 
 	TicketNo			int				NOT NULL,
 	PurchaseDate		smalldatetime,
-	--TripNumber			int				NOT NULL, [Deprecated]
 	BuyersCC			int				NOT NULL,
 	SellerID			char(15),
 	DepartureTripNo		int				NOT NULL,
 	DepartureStopNo		smallint		NOT NULL,
 	ArrivalTripNo		int				NOT NULL,
-	ArrivalStopNo		smallint		NOT NULL
+	ArrivalStopNo		smallint		NOT NULL,
 
 	PRIMARY KEY(TicketNo),
 	-- Foreign keys
-	-- TripNumber
-	FOREIGN KEY (TripNumber) REFERENCES Transportation_System.Trip(TripNo),
 	-- BuyersCC
 	FOREIGN KEY (BuyersCC) REFERENCES Transportation_System.Passenger(CC),
 	-- SellerID
 	FOREIGN KEY (SellerID) REFERENCES Transportation_System.TicketSeller(FuncID),
 	-- Departure Trip Number
 	FOREIGN KEY (DepartureTripNo, DepartureStopNo)	REFERENCES Transportation_System.StopPoint(TripNo, StopNo),
-	-- Departure Stop Number
-	--FOREIGN KEY (DepartureStopNo)	REFERENCES Transportation_System.StopPoint(StopNo),
 	-- Arrival Trip Number
 	FOREIGN KEY (ArrivalTripNo, ArrivalStopNo)	REFERENCES Transportation_System.StopPoint(TripNo, StopNo)
-	-- Arrival Stop Number
-	--FOREIGN KEY (ArrivalStopNo)	REFERENCES Transportation_System.StopPoint(StopNo)
 
 );
+-- TODO insert trigger asserting:
+--		departures and arrival stops are connectable (if depTripNo == arrTripNo then no asserting needed) [hard]
+--		purchaseDate precedes departure (DepartureStop.depTime) [easy]
+--		ticket seller is either: [hard]
+--			a crewmember of one of the connecting trips
+--			an actual ticket at the departure station
 --- Based upon the above inserted trip(s):
 -- Ticket Aveiro->Coimbra (R)
-insert into Transportation_System.StopPoint (TicketNo, PurchaseDate, BuyersCC, SellerID, DepartureTripNo, DepartureStopNo, ArrivalTripNo, ArrivalStopNo)
+insert into Transportation_System.Ticket (TicketNo, PurchaseDate, BuyersCC, SellerID, DepartureTripNo, DepartureStopNo, ArrivalTripNo, ArrivalStopNo)
 	values (23, '2021-06-03 21:00:24', 120952978, '987705747291859', 990651, 1, 990651, 15);
 -- Ticket Oia->Souselas (R)
-insert into Transportation_System.StopPoint (TicketNo, PurchaseDate, BuyersCC, SellerID, DepartureTripNo, DepartureStopNo, ArrivalTripNo, ArrivalStopNo)
+insert into Transportation_System.Ticket (TicketNo, PurchaseDate, BuyersCC, SellerID, DepartureTripNo, DepartureStopNo, ArrivalTripNo, ArrivalStopNo)
 	values (56, '2021-06-03 21:05:24', 138537300, null, 990651, 3, 990651, 11);
 -- 2 Tickets Aveiro-->Lisboa (AP)
-insert into Transportation_System.StopPoint (TicketNo, PurchaseDate, BuyersCC, SellerID, DepartureTripNo, DepartureStopNo, ArrivalTripNo, ArrivalStopNo)
+insert into Transportation_System.Ticket (TicketNo, PurchaseDate, BuyersCC, SellerID, DepartureTripNo, DepartureStopNo, ArrivalTripNo, ArrivalStopNo)
 	values (59, '2021-06-03 22:00:24', 138537300, '987705747291859', 120363, 1, 120363, 2);
-insert into Transportation_System.StopPoint (TicketNo, PurchaseDate, BuyersCC, SellerID, DepartureTripNo, DepartureStopNo, ArrivalTripNo, ArrivalStopNo)
+insert into Transportation_System.Ticket (TicketNo, PurchaseDate, BuyersCC, SellerID, DepartureTripNo, DepartureStopNo, ArrivalTripNo, ArrivalStopNo)
 	values (60, '2021-06-03 22:02:24', 170623364, '987705747291859', 120363, 1, 120363, 2);
 -- Ticket Aveiro->Coimbra (IC)
-insert into Transportation_System.StopPoint (TicketNo, PurchaseDate, BuyersCC, SellerID, DepartureTripNo, DepartureStopNo, ArrivalTripNo, ArrivalStopNo)
+insert into Transportation_System.Ticket (TicketNo, PurchaseDate, BuyersCC, SellerID, DepartureTripNo, DepartureStopNo, ArrivalTripNo, ArrivalStopNo)
 	values (89, '2021-06-03 20:54:24', 152408280, '978194357492412', 560954, 1, 560954, 2);
 
 CREATE TABLE Transportation_System.WorksOn (
@@ -365,5 +374,7 @@ CREATE TABLE Transportation_System.WorksOn (
 	-- TripNo
 	FOREIGN KEY (TripNo) REFERENCES Transportation_System.Trip(TripNo)
 );
-
--- Populate databases: with help from mockaroo.com
+-- TODO insert trigger asserting inserted funcIDs are in CrewMember
+insert into Transportation_System.WorksOn(FuncID, TripNo) values (626758722355364, 990651);
+insert into Transportation_System.WorksOn(FuncID, TripNo) values (504824182452584, 560954);
+insert into Transportation_System.WorksOn(FuncID, TripNo) values (959001345886574, 120363);
