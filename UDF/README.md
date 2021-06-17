@@ -1,6 +1,7 @@
 ## TODO the next UDFs
 
 - [ ] Generally helper functions
+    - [ ] Check if a vehicle is any of it's sub-elements (e.g. train, bus or tube)
 - [ ] Upcoming rides
     - [ ] From selected destination and arrival stops
         - [ ] With any selected mid stops
