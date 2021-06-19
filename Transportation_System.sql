@@ -22,6 +22,10 @@ CREATE SCHEMA Transportation_System;
 GO
 
 -- TODO Create type for FuncID [w/ drop if exists]
+-- ...
+-- TODO Create type for address [w/ drop if exists]
+drop type if exists locale;
+create type locale from varchar(50);
 
 CREATE TABLE Transportation_System.Passenger (
 
@@ -76,7 +80,7 @@ insert into Transportation_System.Employee (FuncID, EName, Birthday, Init_Date) 
 insert into Transportation_System.Employee (FuncID, EName, Birthday, Init_Date) values ('554744942004697', 'Anne-corinne Sinyard', '1994-04-12 19:04:06', '2012-03-07 13:36:31');
 
 CREATE TABLE Transportation_System.Station (
-	Addr			varchar(50) NOT NULL,
+	Addr			locale	 NOT NULL,
 	StatName		varchar(30),
 	StatType		varchar(25),
 	Descricao		varchar(75),
@@ -105,7 +109,7 @@ insert into Transportation_System.Station (StatName, Addr, StatType, Descricao) 
 CREATE TABLE Transportation_System.TicketSeller (
 
 	FuncID				char(15)	NOT NULL,
-	WorkStationAddress	varchar(50)	NOT NULL,
+	WorkStationAddress	locale		NOT NULL,
 	PRIMARY KEY(FuncID),
 	-- Foreign keys
 	-- FuncID
@@ -282,7 +286,7 @@ CREATE TABLE Transportation_System.StopPoint (
 	StopNo				smallint	NOT NULL,
 	DepartureTime		smalldatetime,
 	ArrivalTime			smalldatetime check(ArrivalTime <= DepartureTime), -- goal it to assert depTime isn't before arrival time
-	StopAddress			varchar(50)	NOT NULL,
+	StopAddress			locale		NOT NULL,
 	PRIMARY KEY(TripNo, StopNo),
 
 	-- Foreign keys
