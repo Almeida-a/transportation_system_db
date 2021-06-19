@@ -5,4 +5,3 @@
 - [ ] Vehicles ordered by different properties (vehicles.sql)
     - [ ] Number of trips
     - [ ] Number of stops
-- [ ] Average employee number of hours (?)
