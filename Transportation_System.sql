@@ -23,7 +23,7 @@ GO
 
 -- TODO Create type for FuncID [w/ drop if exists]
 -- ...
--- TODO Create type for address [w/ drop if exists]
+-- Create type for address [w/ drop if exists]
 drop type if exists locale;
 create type locale from varchar(50);
 
@@ -117,7 +117,6 @@ CREATE TABLE Transportation_System.TicketSeller (
 	-- WorkStationAddress
 	FOREIGN KEY (WorkStationAddress) REFERENCES Transportation_System.Station(Addr)
 );
--- TODO insert trigger asserting seller isn't on another station and isn't already a crewmember
 -- Aveiro employees
 insert into Transportation_System.TicketSeller(FuncID, WorkStationAddress) values (987705747291859, 'Aveiro 23910');
 insert into Transportation_System.TicketSeller(FuncID, WorkStationAddress) values (978194357492412, 'Aveiro 23910');
@@ -196,7 +195,6 @@ CREATE TABLE Transportation_System.Train (
 	FOREIGN KEY (SerialNo) REFERENCES Transportation_System.PublicVehicle(SerialNo)
 
 );
--- TODO insert trigger asserting SerialNo isn't present at Tube nor Bus table
 insert into Transportation_System.Train (SerialNo) values (722161);
 insert into Transportation_System.Train (SerialNo) values (214191);
 insert into Transportation_System.Train (SerialNo) values (365238);
@@ -225,7 +223,6 @@ CREATE TABLE Transportation_System.Bus (
 	FOREIGN KEY (SerialNo) REFERENCES Transportation_System.PublicVehicle(SerialNo)
 
 );
--- TODO insert trigger asserting SerialNo isn't present at Train nor Tube table
 insert into Transportation_System.Bus(SerialNo) values (455238);
 insert into Transportation_System.Bus(SerialNo) values (272663);
 insert into Transportation_System.Bus(SerialNo) values (246234);
@@ -242,7 +239,6 @@ CREATE TABLE Transportation_System.Tube (
 	FOREIGN KEY (SerialNo) REFERENCES Transportation_System.PublicVehicle(SerialNo)
 
 );
--- TODO insert trigger asserting SerialNo isn't present at Train nor Bus table
 insert into Transportation_System.Tube(SerialNo) values (297856);
 insert into Transportation_System.Tube(SerialNo) values (481344);
 
@@ -295,9 +291,6 @@ CREATE TABLE Transportation_System.StopPoint (
 	-- StopAddress
 	FOREIGN KEY (StopAddress) REFERENCES Transportation_System.Station(Addr)
 );
--- TODO insert trigger asserting:
---		stoppoints are sequencial; [easy]
---		stopNo and times are semantically consistent [hard]
 -- Note:  if depTrip==arrTrip then it's assumed no scale is made
 -- Viagem de um comboio regional de aveiro a coimbra
 insert into Transportation_System.StopPoint (TripNo, StopNo, DepartureTime, ArrivalTime, StopAddress) values (990651, 1, '2021-06-03 21:03:24', '2021-06-03 21:03:24', 'Aveiro 23910');
@@ -345,12 +338,6 @@ CREATE TABLE Transportation_System.Ticket (
 	FOREIGN KEY (ArrivalTripNo, ArrivalStopNo)	REFERENCES Transportation_System.StopPoint(TripNo, StopNo)
 
 );
--- TODO insert trigger asserting:
---		departures and arrival stops are connectable (if depTripNo == arrTripNo then no asserting needed) [hard]
---		purchaseDate precedes departure (DepartureStop.depTime) [easy]
---		ticket seller is either: [hard]
---			a crewmember of one of the connecting trips
---			an actual ticket at the departure station
 --- Based upon the above inserted trip(s):
 -- Ticket Aveiro->Coimbra (R)
 insert into Transportation_System.Ticket (TicketNo, PurchaseDate, BuyersCC, SellerID, DepartureTripNo, DepartureStopNo, ArrivalTripNo, ArrivalStopNo)
@@ -378,7 +365,6 @@ CREATE TABLE Transportation_System.WorksOn (
 	-- TripNo
 	FOREIGN KEY (TripNo) REFERENCES Transportation_System.Trip(TripNo)
 );
--- TODO insert trigger asserting inserted funcIDs are in CrewMember
 insert into Transportation_System.WorksOn(FuncID, TripNo) values (626758722355364, 990651);
 insert into Transportation_System.WorksOn(FuncID, TripNo) values (504824182452584, 560954);
 insert into Transportation_System.WorksOn(FuncID, TripNo) values (959001345886574, 120363);
