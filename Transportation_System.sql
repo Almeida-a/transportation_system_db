@@ -113,9 +113,11 @@ CREATE TABLE Transportation_System.TicketSeller (
 	PRIMARY KEY(FuncID),
 	-- Foreign keys
 	-- FuncID
-	FOREIGN KEY (FuncID) REFERENCES Transportation_System.Employee(FuncID),
+	FOREIGN KEY (FuncID) REFERENCES Transportation_System.Employee(FuncID)
+		ON DELETE SET NULL ON UPDATE CASCADE,
 	-- WorkStationAddress
 	FOREIGN KEY (WorkStationAddress) REFERENCES Transportation_System.Station(Addr)
+		ON DELETE SET NULL ON UPDATE CASCADE
 );
 -- Aveiro employees
 insert into Transportation_System.TicketSeller(FuncID, WorkStationAddress) values (987705747291859, 'Aveiro 23910');
@@ -145,6 +147,7 @@ CREATE TABLE Transportation_System.CrewMember (
 	-- Foreign keys
 	-- FuncID
 	FOREIGN KEY (FuncID) REFERENCES Transportation_System.Employee(FuncID)
+		ON DELETE SET NULL ON UPDATE CASCADE
 );
 insert into Transportation_System.TicketSeller(FuncID) values (626758722355364);
 insert into Transportation_System.TicketSeller(FuncID) values (504824182452584);
@@ -193,6 +196,7 @@ CREATE TABLE Transportation_System.Train (
 	SerialNo		int		NOT NULL,
 	PRIMARY KEY(SerialNo),
 	FOREIGN KEY (SerialNo) REFERENCES Transportation_System.PublicVehicle(SerialNo)
+		ON DELETE SET NULL ON UPDATE CASCADE
 
 );
 insert into Transportation_System.Train (SerialNo) values (722161);
@@ -221,6 +225,7 @@ CREATE TABLE Transportation_System.Bus (
 	SerialNo		int		NOT NULL,
 	PRIMARY KEY(SerialNo),
 	FOREIGN KEY (SerialNo) REFERENCES Transportation_System.PublicVehicle(SerialNo)
+		ON DELETE SET NULL ON UPDATE CASCADE
 
 );
 insert into Transportation_System.Bus(SerialNo) values (455238);
@@ -237,6 +242,7 @@ CREATE TABLE Transportation_System.Tube (
 	SerialNo		int		NOT NULL,
 	PRIMARY KEY(SerialNo),
 	FOREIGN KEY (SerialNo) REFERENCES Transportation_System.PublicVehicle(SerialNo)
+		ON DELETE SET NULL ON UPDATE CASCADE
 
 );
 insert into Transportation_System.Tube(SerialNo) values (297856);
@@ -287,9 +293,11 @@ CREATE TABLE Transportation_System.StopPoint (
 
 	-- Foreign keys
 	-- TripNo
-	FOREIGN KEY (TripNo) REFERENCES Transportation_System.Trip(TripNo),
+	FOREIGN KEY (TripNo) REFERENCES Transportation_System.Trip(TripNo)
+		ON DELETE SET NULL ON UPDATE CASCADE,
 	-- StopAddress
 	FOREIGN KEY (StopAddress) REFERENCES Transportation_System.Station(Addr)
+		ON DELETE SET NULL ON UPDATE CASCADE
 );
 -- Note:  if depTrip==arrTrip then it's assumed no scale is made
 -- Viagem de um comboio regional de aveiro a coimbra
@@ -329,13 +337,17 @@ CREATE TABLE Transportation_System.Ticket (
 	PRIMARY KEY(TicketNo),
 	-- Foreign keys
 	-- BuyersCC
-	FOREIGN KEY (BuyersCC) REFERENCES Transportation_System.Passenger(CC),
+	FOREIGN KEY (BuyersCC) REFERENCES Transportation_System.Passenger(CC)
+		ON DELETE SET NULL ON UPDATE CASCADE,
 	-- SellerID
-	FOREIGN KEY (SellerID) REFERENCES Transportation_System.TicketSeller(FuncID),
+	FOREIGN KEY (SellerID) REFERENCES Transportation_System.TicketSeller(FuncID)
+		ON DELETE SET NULL ON UPDATE CASCADE,
 	-- Departure Trip Number
-	FOREIGN KEY (DepartureTripNo, DepartureStopNo)	REFERENCES Transportation_System.StopPoint(TripNo, StopNo),
+	FOREIGN KEY (DepartureTripNo, DepartureStopNo)	REFERENCES Transportation_System.StopPoint(TripNo, StopNo)
+		ON DELETE SET NULL ON UPDATE CASCADE,
 	-- Arrival Trip Number
 	FOREIGN KEY (ArrivalTripNo, ArrivalStopNo)	REFERENCES Transportation_System.StopPoint(TripNo, StopNo)
+		ON DELETE SET NULL ON UPDATE CASCADE
 
 );
 --- Based upon the above inserted trip(s):
@@ -361,9 +373,11 @@ CREATE TABLE Transportation_System.WorksOn (
 	PRIMARY KEY(FuncID, TripNo),
 	-- Foreign keys
 	-- FuncID
-	FOREIGN KEY (FuncID) REFERENCES Transportation_System.CrewMember(FuncID),
+	FOREIGN KEY (FuncID) REFERENCES Transportation_System.CrewMember(FuncID)
+		ON DELETE SET NULL ON UPDATE CASCADE,
 	-- TripNo
 	FOREIGN KEY (TripNo) REFERENCES Transportation_System.Trip(TripNo)
+		ON DELETE SET NULL ON UPDATE CASCADE
 );
 insert into Transportation_System.WorksOn(FuncID, TripNo) values (626758722355364, 990651);
 insert into Transportation_System.WorksOn(FuncID, TripNo) values (504824182452584, 560954);
