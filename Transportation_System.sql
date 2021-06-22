@@ -114,31 +114,30 @@ CREATE TABLE Transportation_System.TicketSeller (
 	-- Foreign keys
 	-- FuncID
 	FOREIGN KEY (FuncID) REFERENCES Transportation_System.Employee(FuncID)
-		ON DELETE SET NULL ON UPDATE CASCADE,
+		ON UPDATE CASCADE,
 	-- WorkStationAddress
 	FOREIGN KEY (WorkStationAddress) REFERENCES Transportation_System.Station(Addr)
-		ON DELETE SET NULL ON UPDATE CASCADE
 );
 -- Aveiro employees
-insert into Transportation_System.TicketSeller(FuncID, WorkStationAddress) values (987705747291859, 'Aveiro 23910');
-insert into Transportation_System.TicketSeller(FuncID, WorkStationAddress) values (978194357492412, 'Aveiro 23910');
-insert into Transportation_System.TicketSeller(FuncID, WorkStationAddress) values (011186694572846, 'Aveiro 23910');
-insert into Transportation_System.TicketSeller(FuncID, WorkStationAddress) values (569415054008884, 'Aveiro 23910');
-insert into Transportation_System.TicketSeller(FuncID, WorkStationAddress) values (603989236290146, 'Aveiro 23910');
+insert into Transportation_System.TicketSeller(FuncID, WorkStationAddress) values ('987705747291859', 'Aveiro 23910');
+insert into Transportation_System.TicketSeller(FuncID, WorkStationAddress) values ('978194357492412', 'Aveiro 23910');
+insert into Transportation_System.TicketSeller(FuncID, WorkStationAddress) values ('011186694572846', 'Aveiro 23910');
+insert into Transportation_System.TicketSeller(FuncID, WorkStationAddress) values ('569415054008884', 'Aveiro 23910');
+insert into Transportation_System.TicketSeller(FuncID, WorkStationAddress) values ('603989236290146', 'Aveiro 23910');
 -- Coimbra employees
-insert into Transportation_System.TicketSeller(FuncID, WorkStationAddress) values (724568375639863, 'Coimbra 448');
-insert into Transportation_System.TicketSeller(FuncID, WorkStationAddress) values (288291341837896, 'Coimbra 448');
-insert into Transportation_System.TicketSeller(FuncID, WorkStationAddress) values (554765825410004, 'Coimbra 448');
-insert into Transportation_System.TicketSeller(FuncID, WorkStationAddress) values (884477435311132, 'Coimbra 448');
-insert into Transportation_System.TicketSeller(FuncID, WorkStationAddress) values (627767374680712, 'Coimbra 448');
+insert into Transportation_System.TicketSeller(FuncID, WorkStationAddress) values ('724568375639863', 'Coimbra 448');
+insert into Transportation_System.TicketSeller(FuncID, WorkStationAddress) values ('288291341837896', 'Coimbra 448');
+insert into Transportation_System.TicketSeller(FuncID, WorkStationAddress) values ('554765825410004', 'Coimbra 448');
+insert into Transportation_System.TicketSeller(FuncID, WorkStationAddress) values ('884477435311132', 'Coimbra 448');
+insert into Transportation_System.TicketSeller(FuncID, WorkStationAddress) values ('627767374680712', 'Coimbra 448');
 -- Coimbra-B employees
-insert into Transportation_System.TicketSeller(FuncID, WorkStationAddress) values (330119670658310, 'Coimbra-B 4968');
-insert into Transportation_System.TicketSeller(FuncID, WorkStationAddress) values (160201670208216, 'Coimbra-B 4968');
-insert into Transportation_System.TicketSeller(FuncID, WorkStationAddress) values (554744942004697, 'Coimbra-B 4968');
+insert into Transportation_System.TicketSeller(FuncID, WorkStationAddress) values ('330119670658310', 'Coimbra-B 4968');
+insert into Transportation_System.TicketSeller(FuncID, WorkStationAddress) values ('160201670208216', 'Coimbra-B 4968');
+insert into Transportation_System.TicketSeller(FuncID, WorkStationAddress) values ('554744942004697', 'Coimbra-B 4968');
 -- Lisboa employees
-insert into Transportation_System.TicketSeller(FuncID, WorkStationAddress) values (069000585623902, 'Lisboa 2231');
-insert into Transportation_System.TicketSeller(FuncID, WorkStationAddress) values (149154169060096, 'Lisboa 2231');
-insert into Transportation_System.TicketSeller(FuncID, WorkStationAddress) values (329897717060894, 'Lisboa 2231');
+insert into Transportation_System.TicketSeller(FuncID, WorkStationAddress) values ('069000585623902', 'Lisboa 2231');
+insert into Transportation_System.TicketSeller(FuncID, WorkStationAddress) values ('149154169060096', 'Lisboa 2231');
+insert into Transportation_System.TicketSeller(FuncID, WorkStationAddress) values ('329897717060894', 'Lisboa 2231');
 
 CREATE TABLE Transportation_System.CrewMember (
 
@@ -147,11 +146,11 @@ CREATE TABLE Transportation_System.CrewMember (
 	-- Foreign keys
 	-- FuncID
 	FOREIGN KEY (FuncID) REFERENCES Transportation_System.Employee(FuncID)
-		ON DELETE SET NULL ON UPDATE CASCADE
+		ON UPDATE CASCADE
 );
-insert into Transportation_System.TicketSeller(FuncID) values (626758722355364);
-insert into Transportation_System.TicketSeller(FuncID) values (504824182452584);
-insert into Transportation_System.TicketSeller(FuncID) values (959001345886574);
+insert into Transportation_System.CrewMember(FuncID) values ('626758722355364');
+insert into Transportation_System.CrewMember(FuncID) values ('504824182452584');
+insert into Transportation_System.CrewMember(FuncID) values ('959001345886574');
 
 CREATE TABLE Transportation_System.PublicVehicle (
 	SerialNo		int			NOT NULL check(SerialNo > 0),
@@ -196,7 +195,7 @@ CREATE TABLE Transportation_System.Train (
 	SerialNo		int		NOT NULL,
 	PRIMARY KEY(SerialNo),
 	FOREIGN KEY (SerialNo) REFERENCES Transportation_System.PublicVehicle(SerialNo)
-		ON DELETE SET NULL ON UPDATE CASCADE
+	ON UPDATE CASCADE
 
 );
 insert into Transportation_System.Train (SerialNo) values (722161);
@@ -225,7 +224,7 @@ CREATE TABLE Transportation_System.Bus (
 	SerialNo		int		NOT NULL,
 	PRIMARY KEY(SerialNo),
 	FOREIGN KEY (SerialNo) REFERENCES Transportation_System.PublicVehicle(SerialNo)
-		ON DELETE SET NULL ON UPDATE CASCADE
+	ON UPDATE CASCADE
 
 );
 insert into Transportation_System.Bus(SerialNo) values (455238);
@@ -235,14 +234,13 @@ insert into Transportation_System.Bus(SerialNo) values (500914);
 insert into Transportation_System.Bus(SerialNo) values (310694);
 insert into Transportation_System.Bus(SerialNo) values (574213);
 insert into Transportation_System.Bus(SerialNo) values (103253);
---insert into Transportation_System.Bus(SerialNo) values (); more, if needed
 
 CREATE TABLE Transportation_System.Tube (
 
 	SerialNo		int		NOT NULL,
 	PRIMARY KEY(SerialNo),
 	FOREIGN KEY (SerialNo) REFERENCES Transportation_System.PublicVehicle(SerialNo)
-		ON DELETE SET NULL ON UPDATE CASCADE
+	ON UPDATE CASCADE
 
 );
 insert into Transportation_System.Tube(SerialNo) values (297856);
@@ -287,42 +285,43 @@ CREATE TABLE Transportation_System.StopPoint (
 	TripNo				int			NOT NULL,
 	StopNo				smallint	NOT NULL,
 	DepartureTime		smalldatetime,
-	ArrivalTime			smalldatetime check(ArrivalTime <= DepartureTime), -- goal it to assert depTime isn't before arrival time
+	ArrivalTime			smalldatetime, -- goal it to assert depTime isn't before arrival time
 	StopAddress			locale		NOT NULL,
 	PRIMARY KEY(TripNo, StopNo),
 
+	-- Custom constraint
+	constraint valid_datetimes check(ArrivalTime <= DepartureTime or ArrivalTime is NULL or DepartureTime is NULL),
 	-- Foreign keys
 	-- TripNo
 	FOREIGN KEY (TripNo) REFERENCES Transportation_System.Trip(TripNo)
-		ON DELETE SET NULL ON UPDATE CASCADE,
+		ON UPDATE CASCADE,
 	-- StopAddress
 	FOREIGN KEY (StopAddress) REFERENCES Transportation_System.Station(Addr)
-		ON DELETE SET NULL ON UPDATE CASCADE
 );
 -- Note:  if depTrip==arrTrip then it's assumed no scale is made
 -- Viagem de um comboio regional de aveiro a coimbra
-insert into Transportation_System.StopPoint (TripNo, StopNo, DepartureTime, ArrivalTime, StopAddress) values (990651, 1, '2021-06-03 21:03:24', '2021-06-03 21:03:24', 'Aveiro 23910');
-insert into Transportation_System.StopPoint (TripNo, StopNo, DepartureTime, ArrivalTime, StopAddress) values (990651, 2, '2021-06-03 21:08:24', '2021-06-03 21:09:24', 'Quintans 30574');
-insert into Transportation_System.StopPoint (TripNo, StopNo, DepartureTime, ArrivalTime, StopAddress) values (990651, 3, '2021-06-03 21:13:24', '2021-06-03 21:14:24', 'Oia 73280');
-insert into Transportation_System.StopPoint (TripNo, StopNo, DepartureTime, ArrivalTime, StopAddress) values (990651, 4, '2021-06-03 21:19:24', '2021-06-03 21:20:24', 'Oliveira do Bairro 50432');
-insert into Transportation_System.StopPoint (TripNo, StopNo, DepartureTime, ArrivalTime, StopAddress) values (990651, 5, '2021-06-03 21:24:24', '2021-06-03 21:25:24', 'Paraimo-Sangalhos 45696');
-insert into Transportation_System.StopPoint (TripNo, StopNo, DepartureTime, ArrivalTime, StopAddress) values (990651, 6, '2021-06-03 21:29:24', '2021-06-03 21:30:24', 'Mogofores 27691');
-insert into Transportation_System.StopPoint (TripNo, StopNo, DepartureTime, ArrivalTime, StopAddress) values (990651, 7, '2021-06-03 21:34:24', '2021-06-03 21:35:24', 'Curia 39249');
-insert into Transportation_System.StopPoint (TripNo, StopNo, DepartureTime, ArrivalTime, StopAddress) values (990651, 8, '2021-06-03 21:39:24', '2021-06-03 21:40:24', 'Aguim 20678');
-insert into Transportation_System.StopPoint (TripNo, StopNo, DepartureTime, ArrivalTime, StopAddress) values (990651, 9, '2021-06-03 21:44:24', '2021-06-03 21:45:24', 'Mealhada 55113');
-insert into Transportation_System.StopPoint (TripNo, StopNo, DepartureTime, ArrivalTime, StopAddress) values (990651, 10, '2021-06-03 21:49:24', '2021-06-03 21:50:24', 'Pampilhosa 42795');
-insert into Transportation_System.StopPoint (TripNo, StopNo, DepartureTime, ArrivalTime, StopAddress) values (990651, 11, '2021-06-03 21:54:24', '2021-06-03 21:56:24', 'Souselas 44968');
-insert into Transportation_System.StopPoint (TripNo, StopNo, DepartureTime, ArrivalTime, StopAddress) values (990651, 12, '2021-06-03 21:59:24', '2021-06-03 22:00:24', 'Vilela-Fornos 968');
-insert into Transportation_System.StopPoint (TripNo, StopNo, DepartureTime, ArrivalTime, StopAddress) values (990651, 13, '2021-06-03 22:04:24', '2021-06-03 22:05:24', 'Ademia 4496');
-insert into Transportation_System.StopPoint (TripNo, StopNo, DepartureTime, ArrivalTime, StopAddress) values (990651, 14, '2021-06-03 22:09:24', '2021-06-03 22:10:24', 'Coimbra-B 4968');
-insert into Transportation_System.StopPoint (TripNo, StopNo, DepartureTime, ArrivalTime, StopAddress) values (990651, 15, '2021-06-03 22:14:24', '2021-06-03 22:14:24', 'Coimbra 448');
+insert into Transportation_System.StopPoint (TripNo, StopNo, ArrivalTime, DepartureTime, StopAddress) values (990651, 1, '2021-06-03 21:03:24', '2021-06-03 21:03:24', 'Aveiro 23910');
+insert into Transportation_System.StopPoint (TripNo, StopNo, ArrivalTime, DepartureTime, StopAddress) values (990651, 2, '2021-06-03 21:08:24', '2021-06-03 21:09:24', 'Quintans 30574');
+insert into Transportation_System.StopPoint (TripNo, StopNo, ArrivalTime, DepartureTime, StopAddress) values (990651, 3, '2021-06-03 21:13:24', '2021-06-03 21:14:24', 'Oia 73280');
+insert into Transportation_System.StopPoint (TripNo, StopNo, ArrivalTime, DepartureTime, StopAddress) values (990651, 4, '2021-06-03 21:19:24', '2021-06-03 21:20:24', 'Oliveira do Bairro 50432');
+insert into Transportation_System.StopPoint (TripNo, StopNo, ArrivalTime, DepartureTime, StopAddress) values (990651, 5, '2021-06-03 21:24:24', '2021-06-03 21:25:24', 'Paraimo-Sangalhos 45696');
+insert into Transportation_System.StopPoint (TripNo, StopNo, ArrivalTime, DepartureTime, StopAddress) values (990651, 6, '2021-06-03 21:29:24', '2021-06-03 21:30:24', 'Mogofores 27691');
+insert into Transportation_System.StopPoint (TripNo, StopNo, ArrivalTime, DepartureTime, StopAddress) values (990651, 7, '2021-06-03 21:34:24', '2021-06-03 21:35:24', 'Curia 39249');
+insert into Transportation_System.StopPoint (TripNo, StopNo, ArrivalTime, DepartureTime, StopAddress) values (990651, 8, '2021-06-03 21:39:24', '2021-06-03 21:40:24', 'Aguim 20678');
+insert into Transportation_System.StopPoint (TripNo, StopNo, ArrivalTime, DepartureTime, StopAddress) values (990651, 9, '2021-06-03 21:44:24', '2021-06-03 21:45:24', 'Mealhada 55113');
+insert into Transportation_System.StopPoint (TripNo, StopNo, ArrivalTime, DepartureTime, StopAddress) values (990651, 10, '2021-06-03 21:49:24', '2021-06-03 21:50:24', 'Pampilhosa 42795');
+insert into Transportation_System.StopPoint (TripNo, StopNo, ArrivalTime, DepartureTime, StopAddress) values (990651, 11, '2021-06-03 21:54:24', '2021-06-03 21:56:24', 'Souselas 44968');
+insert into Transportation_System.StopPoint (TripNo, StopNo, ArrivalTime, DepartureTime, StopAddress) values (990651, 12, '2021-06-03 21:59:24', '2021-06-03 22:00:24', 'Vilela-Fornos 968');
+insert into Transportation_System.StopPoint (TripNo, StopNo, ArrivalTime, DepartureTime, StopAddress) values (990651, 13, '2021-06-03 22:04:24', '2021-06-03 22:05:24', 'Ademia 4496');
+insert into Transportation_System.StopPoint (TripNo, StopNo, ArrivalTime, DepartureTime, StopAddress) values (990651, 14, '2021-06-03 22:09:24', '2021-06-03 22:10:24', 'Coimbra-B 4968');
+insert into Transportation_System.StopPoint (TripNo, StopNo, ArrivalTime, DepartureTime, StopAddress) values (990651, 15, '2021-06-03 22:14:24', '2021-06-03 22:14:24', 'Coimbra 448');
 -- Viagem de um comboio inter-cidades de aveiro a coimbra
-insert into Transportation_System.StopPoint (TripNo, StopNo, DepartureTime, ArrivalTime, StopAddress) values (560954, 1, '2021-06-03 21:03:24', '2021-06-03 21:03:24', 'Aveiro 23910');
-insert into Transportation_System.StopPoint (TripNo, StopNo, DepartureTime, ArrivalTime, StopAddress) values (560954, 2, '2021-06-03 21:34:24', '2021-06-03 21:34:24', 'Coimbra 448');
+insert into Transportation_System.StopPoint (TripNo, StopNo, ArrivalTime, DepartureTime, StopAddress) values (560954, 1, '2021-06-03 21:03:24', '2021-06-03 21:03:24', 'Aveiro 23910');
+insert into Transportation_System.StopPoint (TripNo, StopNo, ArrivalTime, DepartureTime, StopAddress) values (560954, 2, '2021-06-03 21:34:24', '2021-06-03 21:34:24', 'Coimbra 448');
 -- Viagem de um comboio alfa-pendular de aveiro a lisboa
-insert into Transportation_System.StopPoint (TripNo, StopNo, DepartureTime, ArrivalTime, StopAddress) values (120363, 1, '2021-06-03 22:14:24', '2021-06-03 22:14:24', 'Aveiro 23910');
-insert into Transportation_System.StopPoint (TripNo, StopNo, DepartureTime, ArrivalTime, StopAddress) values (120363, 2, '2021-06-04 00:14:24', '2021-06-03 24:14:24', 'Lisboa 2231');
-
+insert into Transportation_System.StopPoint (TripNo, StopNo, ArrivalTime, DepartureTime, StopAddress) values (873127, 1, '2021-06-03 22:14:24', '2021-06-03 22:14:24', 'Aveiro 23910');
+insert into Transportation_System.StopPoint (TripNo, StopNo, ArrivalTime, DepartureTime, StopAddress) values (873127, 2, '2021-06-04 00:14:24', '2021-06-04 00:20:24', 'Lisboa 2231');
+--select count(*) from Transportation_System.StopPoint where TripNo = 120363;
 CREATE TABLE Transportation_System.Ticket (
 
 	TicketNo			int				NOT NULL,
@@ -337,17 +336,13 @@ CREATE TABLE Transportation_System.Ticket (
 	PRIMARY KEY(TicketNo),
 	-- Foreign keys
 	-- BuyersCC
-	FOREIGN KEY (BuyersCC) REFERENCES Transportation_System.Passenger(CC)
-		ON DELETE SET NULL ON UPDATE CASCADE,
+	FOREIGN KEY (BuyersCC) REFERENCES Transportation_System.Passenger(CC),
 	-- SellerID
-	FOREIGN KEY (SellerID) REFERENCES Transportation_System.TicketSeller(FuncID)
-		ON DELETE SET NULL ON UPDATE CASCADE,
+	FOREIGN KEY (SellerID) REFERENCES Transportation_System.TicketSeller(FuncID),
 	-- Departure Trip Number
-	FOREIGN KEY (DepartureTripNo, DepartureStopNo)	REFERENCES Transportation_System.StopPoint(TripNo, StopNo)
-		ON DELETE SET NULL ON UPDATE CASCADE,
+	FOREIGN KEY (DepartureTripNo, DepartureStopNo)	REFERENCES Transportation_System.StopPoint(TripNo, StopNo),
 	-- Arrival Trip Number
 	FOREIGN KEY (ArrivalTripNo, ArrivalStopNo)	REFERENCES Transportation_System.StopPoint(TripNo, StopNo)
-		ON DELETE SET NULL ON UPDATE CASCADE
 
 );
 --- Based upon the above inserted trip(s):
@@ -359,9 +354,9 @@ insert into Transportation_System.Ticket (TicketNo, PurchaseDate, BuyersCC, Sell
 	values (56, '2021-06-03 21:05:24', 138537300, null, 990651, 3, 990651, 11);
 -- 2 Tickets Aveiro-->Lisboa (AP)
 insert into Transportation_System.Ticket (TicketNo, PurchaseDate, BuyersCC, SellerID, DepartureTripNo, DepartureStopNo, ArrivalTripNo, ArrivalStopNo)
-	values (59, '2021-06-03 22:00:24', 138537300, '987705747291859', 120363, 1, 120363, 2);
+	values (59, '2021-06-03 22:00:24', 138537300, '987705747291859', 873127, 1, 873127, 2);
 insert into Transportation_System.Ticket (TicketNo, PurchaseDate, BuyersCC, SellerID, DepartureTripNo, DepartureStopNo, ArrivalTripNo, ArrivalStopNo)
-	values (60, '2021-06-03 22:02:24', 170623364, '987705747291859', 120363, 1, 120363, 2);
+	values (60, '2021-06-03 22:02:24', 170623364, '987705747291859', 873127, 1, 873127, 2);
 -- Ticket Aveiro->Coimbra (IC)
 insert into Transportation_System.Ticket (TicketNo, PurchaseDate, BuyersCC, SellerID, DepartureTripNo, DepartureStopNo, ArrivalTripNo, ArrivalStopNo)
 	values (89, '2021-06-03 20:54:24', 152408280, '978194357492412', 560954, 1, 560954, 2);
@@ -373,12 +368,10 @@ CREATE TABLE Transportation_System.WorksOn (
 	PRIMARY KEY(FuncID, TripNo),
 	-- Foreign keys
 	-- FuncID
-	FOREIGN KEY (FuncID) REFERENCES Transportation_System.CrewMember(FuncID)
-		ON DELETE SET NULL ON UPDATE CASCADE,
+	FOREIGN KEY (FuncID) REFERENCES Transportation_System.CrewMember(FuncID),
 	-- TripNo
 	FOREIGN KEY (TripNo) REFERENCES Transportation_System.Trip(TripNo)
-		ON DELETE SET NULL ON UPDATE CASCADE
 );
 insert into Transportation_System.WorksOn(FuncID, TripNo) values (626758722355364, 990651);
 insert into Transportation_System.WorksOn(FuncID, TripNo) values (504824182452584, 560954);
-insert into Transportation_System.WorksOn(FuncID, TripNo) values (959001345886574, 120363);
+insert into Transportation_System.WorksOn(FuncID, TripNo) values (959001345886574, 873127);
