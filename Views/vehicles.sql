@@ -1,14 +1,6 @@
 -- Vehicles by:
 
 -- Number of trips
-/*
-    Pseudo-code:
-    create view
-        select serialno, modelId, capacity, tripQtt as count(serialNo)
-        from vehicle join trips on serialno
-        group by serialno, modelId, capacity
-        order by tripQtt
-*/
 -- Create a new view called 'TripQuant' in schema 'Transportation_System'
 -- Drop the view if it already exists
 IF EXISTS (
@@ -27,31 +19,33 @@ AS
     -- body of the view
     SELECT SerialNo, ModelID, Capacity, COUNT(TripNo) AS TripQtt
     FROM Transportation_System.PublicVehicle AS pv
-	-- left outer -> Includes vehicles without trip => tripQtt = 0
+	-- why outer -> Include vehicles without trip => tripQtt = 0
         LEFT OUTER JOIN Transportation_System.Trip AS t ON pv.SerialNo=t.VehicleSerialNo
     GROUP BY SerialNo, ModelID, Capacity;
 GO
 
--- Test query
-select * from Transportation_System.TripQuant;
--- drop (it interferes with other batches if this is not run - not critical)
-DROP VIEW Transportation_System.TripQuant;
-
 
 -- Number of stops
-/*
-    Pseudo-code
-    create view
-        select serialno, modelId, capacity, stopQtt as sum(stopsNo)
-        from vehicle join (
-            select tripNumber, stopsNo as count(tripNumber)
-            from stoppoint
-            group by tripNumber
-            order by stopsNo
-        ) as stops on vehicle.tripNo=stops.tripNo
-        group by serialno, modelId, capacity
-        order by desc stopQtt
-*/
+-- Create a new view called 'NumberOfStops' in schema 'Transportation_System'
+-- Drop the view if it already exists
+IF EXISTS (
+SELECT *
+    FROM sys.views
+    JOIN sys.schemas
+    ON sys.views.schema_id = sys.schemas.schema_id
+    WHERE sys.schemas.name = N'Transportation_System'
+    AND sys.views.name = N'NumberOfStops'
+)
+DROP VIEW Transportation_System.NumberOfStops
+GO
+-- Create the view in the specified schema
+CREATE VIEW Transportation_System.NumberOfStops
+AS
+    -- body of the view
+    SELECT TripNo, COUNT(*) AS Stops
+    FROM Transportation_System.StopPoint
+    GROUP BY TripNo;
+GO
 
 
 -- Vehicles without a subtype
@@ -85,6 +79,17 @@ AS
     )
 GO
 
-select * from Transportation_System.AbstractVehicles;
+-- Test TripQuant
+select * from Transportation_System.TripQuant;
+-- drop (it interferes with other batches if this is not run - not critical)
+DROP VIEW Transportation_System.TripQuant;
 
+-- Test NumberOfStops
+select * from Transportation_System.NumberOfStops;
+-- drop
+DROP VIEW Transportation_System.NumberOfStops;
+
+-- Test AbstractVehicles
+select * from Transportation_System.AbstractVehicles;
+-- drop
 DROP VIEW Transportation_System.AbstractVehicles;
