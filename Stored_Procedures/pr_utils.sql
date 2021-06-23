@@ -10,13 +10,13 @@
 IF EXISTS (
 SELECT *
     FROM INFORMATION_SCHEMA.ROUTINES
-WHERE SPECIFIC_SCHEMA = N'dbo.Transportation_System'
+WHERE SPECIFIC_SCHEMA = N'Transportation_System'
     AND SPECIFIC_NAME = N'getVehicleType'
 )
-DROP PROCEDURE dbo.Transportation_System.getVehicleType
+DROP PROCEDURE Transportation_System.getVehicleType
 GO
 -- Create the stored procedure in the specified schema
-CREATE PROCEDURE dbo.Transportation_System.getVehicleType
+CREATE PROCEDURE Transportation_System.getVehicleType
     @serialNo int = -1,
     @type varchar(10) OUTPUT
 AS
@@ -27,29 +27,29 @@ AS
     -- @serialNo = -1? Raiserror 16
     IF @serialNo=-1
     BEGIN
-        RAISERROR 16 'Proc getVehicleType: No vehicle specified';
+        --RAISERROR(16, 'Proc getVehicleType: No vehicle specified');
         RETURN -1;
-    END;
+    END
 
     -- Exists in tube?
     IF (@serialNo IN (SELECT SerialNo FROM Transportation_System.Tube))
     BEGIN
         -- save in output variable
-        SET @type = "Tube";
+        SET @type = 'Tube';
         RETURN 0;
     END;
     -- Exists in bus?
     IF (@serialNo IN (SELECT SerialNo FROM Transportation_System.Bus))
     BEGIN
         -- save in output variable
-        SET @type = "Bus";
+        SET @type = 'Bus';
         RETURN 0;
     END;
     -- Exists in train?
     IF (@serialNo IN (SELECT SerialNo FROM Transportation_System.Train))
     BEGIN
         -- save in output variable
-        SET @type = "Train";
+        SET @type = 'Train';
         RETURN 0;
     END;
     -- Exists at all?
@@ -66,5 +66,11 @@ AS
     
 GO
 -- example to execute the stored procedure we just created
-EXECUTE dbo.Transportation_System.getVehicleType 0;
-GO;
+DECLARE @type varchar(10);
+EXECUTE Transportation_System.getVehicleType 278934, @type;
+GO
+
+DROP PROCEDURE Transportation_System.getVehicleType;
+
+
+-- ...
