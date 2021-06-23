@@ -1,3 +1,4 @@
+
 DROP TABLE IF EXISTS Transportation_System.StopPoint;
 DROP TABLE IF EXISTS Transportation_System.WorksOn;
 DROP TABLE IF EXISTS Transportation_System.Ticket;
@@ -17,15 +18,15 @@ DROP SCHEMA IF EXISTS Transportation_System;
 
 GO
 
-CREATE SCHEMA Transportation_System;
-
-GO
-
--- TODO Create type for FuncID [w/ drop if exists]
--- ...
 -- Create type for address [w/ drop if exists]
 drop type if exists locale;
 create type locale from varchar(50);
+
+GO
+
+CREATE SCHEMA Transportation_System;
+
+GO
 
 CREATE TABLE Transportation_System.Passenger (
 
@@ -321,6 +322,9 @@ insert into Transportation_System.StopPoint (TripNo, StopNo, ArrivalTime, Depart
 -- Viagem de um comboio alfa-pendular de aveiro a lisboa
 insert into Transportation_System.StopPoint (TripNo, StopNo, ArrivalTime, DepartureTime, StopAddress) values (873127, 1, '2021-06-03 22:14:24', '2021-06-03 22:14:24', 'Aveiro 23910');
 insert into Transportation_System.StopPoint (TripNo, StopNo, ArrivalTime, DepartureTime, StopAddress) values (873127, 2, '2021-06-04 00:14:24', '2021-06-04 00:20:24', 'Lisboa 2231');
+-- Viagem de um comboio alfa-pendular de coimbra a lisboa
+insert into Transportation_System.StopPoint (TripNo, StopNo, ArrivalTime, DepartureTime, StopAddress) values (873127, 1, '2021-06-03 22:14:24', '2021-06-03 22:14:24', 'Coimbra 448');
+insert into Transportation_System.StopPoint (TripNo, StopNo, ArrivalTime, DepartureTime, StopAddress) values (873127, 2, '2021-06-04 00:00:24', '2021-06-04 00:20:24', 'Lisboa 2231');
 --select count(*) from Transportation_System.StopPoint where TripNo = 120363;
 CREATE TABLE Transportation_System.Ticket (
 
