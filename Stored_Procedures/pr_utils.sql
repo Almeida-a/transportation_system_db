@@ -7,13 +7,8 @@
 
 -- Create a new stored procedure called 'getVehicleType' in schema 'dbo.Transportation_System'
 -- Drop the stored procedure if it already exists
-IF EXISTS (
-SELECT *
-    FROM INFORMATION_SCHEMA.ROUTINES
-WHERE SPECIFIC_SCHEMA = N'Transportation_System'
-    AND SPECIFIC_NAME = N'getVehicleType'
-)
-DROP PROCEDURE Transportation_System.getVehicleType
+
+DROP PROCEDURE IF EXISTS Transportation_System.getVehicleType;
 GO
 -- Create the stored procedure in the specified schema
 CREATE PROCEDURE Transportation_System.getVehicleType

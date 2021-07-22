@@ -3,15 +3,7 @@
 -- Number of trips
 -- Create a new view called 'TripQuant' in schema 'Transportation_System'
 -- Drop the view if it already exists
-IF EXISTS (
-SELECT *
-    FROM sys.views
-    JOIN sys.schemas
-    ON sys.views.schema_id = sys.schemas.schema_id
-    WHERE sys.schemas.name = N'Transportation_System'
-    AND sys.views.name = N'TripQuant'
-)
-DROP VIEW Transportation_System.TripQuant
+DROP VIEW IF EXISTS Transportation_System.TripQuant;
 GO
 -- Create the view in the specified schema
 CREATE VIEW Transportation_System.TripQuant
@@ -28,15 +20,7 @@ GO
 -- Number of stops
 -- Create a new view called 'NumberOfStops' in schema 'Transportation_System'
 -- Drop the view if it already exists
-IF EXISTS (
-SELECT *
-    FROM sys.views
-    JOIN sys.schemas
-    ON sys.views.schema_id = sys.schemas.schema_id
-    WHERE sys.schemas.name = N'Transportation_System'
-    AND sys.views.name = N'NumberOfStops'
-)
-DROP VIEW Transportation_System.NumberOfStops
+DROP VIEW IF EXISTS Transportation_System.NumberOfStops;
 GO
 -- Create the view in the specified schema
 CREATE VIEW Transportation_System.NumberOfStops
@@ -51,15 +35,7 @@ GO
 -- Vehicles without a subtype
 -- Create a new view called 'AbstractVehicles' in schema 'Transportation_System'
 -- Drop the view if it already exists
-IF EXISTS (
-SELECT *
-    FROM sys.views
-    JOIN sys.schemas
-    ON sys.views.schema_id = sys.schemas.schema_id
-    WHERE sys.schemas.name = N'Transportation_System'
-    AND sys.views.name = N'AbstractVehicles'
-)
-DROP VIEW Transportation_System.AbstractVehicles
+DROP VIEW IF EXISTS Transportation_System.AbstractVehicles
 GO
 -- Create the view in the specified schema
 CREATE VIEW Transportation_System.AbstractVehicles
@@ -90,6 +66,8 @@ select * from Transportation_System.NumberOfStops;
 DROP VIEW Transportation_System.NumberOfStops;
 
 -- Test AbstractVehicles
+INSERT INTO Transportation_System.PublicVehicle VALUES (1234, null, null, null);
 select * from Transportation_System.AbstractVehicles;
+DELETE FROM Transportation_System.PublicVehicle WHERE SerialNo=1234;
 -- drop
 DROP VIEW Transportation_System.AbstractVehicles;

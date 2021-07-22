@@ -37,7 +37,7 @@ AS
         )
         WHERE tmp1.departureTime > @timestamp_left   -- assert trips are inside the required time-bounds
             AND tmp2.arrivalTime < @timestamp_right  -- assert trips are inside the required time-bounds
-            AND tmp1.departureTime < tmp2.arrivalTime -- eliminate reverse trips
+            AND tmp1.departureTime < tmp2.arrivalTime -- if this were false, it would be nonsensical
     )
 
 
@@ -55,8 +55,10 @@ GO
     
 create function Transportation_System.getRoutes
 (
-    @arrival_location locale, @departure_location locale,
-    @timestamp_left smalldatetime, @timestamp_right smalldatetime
+    @arrival_location locale,
+	@departure_location locale,
+    @timestamp_left smalldatetime,
+	@timestamp_right smalldatetime
 )
 returns @table table
 (
@@ -72,9 +74,9 @@ returns @table table
 as
 begin
 
-	-- for station of all stations (except first and last stop stations)
+	-- for each station of all stations (except first and last stop stations)
 	--	check if there exist trips from A to stop AND from stop to B
-	--  if so, add 
+	--  if so, add to table
 	
 	DECLARE @statAddress locale;
 	DECLARE @half_trips table
@@ -150,8 +152,12 @@ SELECT * FROM Transportation_System.getTrips('Coimbra 448', 'Aveiro 23910', '202
 
 GO
 
-SELECT * FROM Transportation_System.getRoutes('Aveiro 23910', 'Lisboa 2231',
-						CONVERT(smalldatetime, '2021-06-01 21:03:24'), CONVERT(smalldatetime, ('2021-06-05 21:03:24')));
+SELECT * FROM Transportation_System.getRoutes(
+						'Aveiro 23910',
+						'Lisboa 2231',
+						/*CONVERT(smalldatetime, */'2021-06-01 21:03:24',
+						/*CONVERT(smalldatetime, */'2021-06-05 21:03:24'
+						);
 
 DROP FUNCTION Transportation_System.getTrips;
 DROP FUNCTION Transportation_System.getRoutes;

@@ -46,7 +46,6 @@ BEGIN
                 INSERT INTO @employees
                 SELECT * FROM Transportation_System.Employee
             END
-            -- else others (continue here)...
             ELSE
             BEGIN
                 -- Error: Wrong @e_type;
